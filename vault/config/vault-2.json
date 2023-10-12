@@ -1,0 +1,30 @@
+{
+  "listener": {
+    "tcp":{
+      "address": "0.0.0.0:8200",
+      "cluster_address": "0.0.0.0:8201",
+      "tls_disable": false,
+      "tls_cert_file": "/etc/tls/vault.pem",
+      "tls_key_file": "/etc/tls/vault-key.pem",
+      "tls_client_ca_file": "/etc/tls/ca.pem"
+    }
+  },
+  "storage": {
+    "consul": {
+      "address": "consul-server-1:8501",
+      "scheme": "https",
+      "path": "vault/",
+      "service": "vault",
+      "disable_registration": "false",
+      "ha_enabled": "true",
+      "tls_ca_file": "/vault/config/consul/ca.pem",
+      "tls_cert_file": "/vault/config/consul/consul.pem",
+      "tls_key_file": "/vault/config/consul/consul-key.pem",
+      "tls_skip_verify": true
+    }
+  },
+  "ui": true,
+  "log_level": "Info",
+  "api_addr": "https://vault-server-2:8200",
+  "cluster_address": "https://vault-server-2:8201"
+}

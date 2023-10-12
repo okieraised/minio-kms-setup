@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+  vault-server-1:
+    image: hashicorp/vault:latest
+    container_name: vault-server-1
+    hostname: vault-server
+    restart: always
+    ports:
+      - "8200:8200"
+      - "8201:8201"
+    command:
+      - "server"
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./config/vault-1.json:/vault/config/config.json:ro
+      - ../certs/vault/:/etc/tls/:ro
+      - ../certs/consul/:/vault/config/consul
+    networks:
+      - ocr
+
+  vault-server-2:
+    image: hashicorp/vault:latest
+    container_name: vault-server-2
+    hostname: vault-server
+    restart: always
+    command:
+      - "server"
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./config/vault-2.json:/vault/config/config.json:ro
+      - ../certs/consul/:/vault/config/consul
+      - ../certs/vault/:/etc/tls/:ro
+    networks:
+      - ocr
+
+  vault-server-3:
+    image: hashicorp/vault:latest
+    container_name: vault-server-3
+    hostname: vault-server
+    restart: always
+    command:
+      - "server"
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./config/vault-3.json:/vault/config/config.json:ro
+      - ../certs/consul/:/vault/config/consul
+      - ../certs/vault/:/etc/tls/:ro
+    networks:
+      - ocr
+
+
+
+networks:
+  ocr:
+    external: true
