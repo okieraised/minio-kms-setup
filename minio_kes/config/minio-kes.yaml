@@ -1,0 +1,45 @@
+address: 0.0.0.0:7373
+
+admin:
+  identity: disabled
+
+tls:
+  key: /root/.kes/certs/minio-kes-key.pem
+  cert: /root/.kes/certs/minio-kes.pem
+  ca: /root/.kes/certs/ca.pem
+
+policy:
+  minio:
+    allow:
+      - /v1/key/create/*
+      - /v1/key/generate/*
+      - /v1/key/decrypt/*
+      - /v1/key/bulk/decrypt
+      - /v1/key/list/*
+      - /v1/key/list
+      - /v1/status
+      - /v1/metrics
+      - /v1/log/audit
+      - /v1/log/error
+    identities:
+      - b827cab0d08c4993fc2adfb992211196090974a64099b15af28e4e408fd3af56
+
+
+keystore:
+  vault:
+    endpoint: https://vault-server-1:8200
+    engine: /minio
+    version:  v1
+    approle:
+      id:     4366e084-4f60-38a0-8bbc-73091be4023b
+      secret: 06601d74-be9e-2009-87d5-a9d68103d36e
+      retry:  15s
+    status:
+      ping: 10s
+    tls:
+      ca: /root/.kes/certs/ca.pem
+
+
+log:
+  error: on
+  audit: on

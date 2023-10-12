@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  minio-kes:
+    image: minio/kes:latest
+    container_name: minio-kes
+    restart: always
+    volumes:
+      - ../certs/minio_kes/:/root/.kes/certs/:ro
+      - ./config/minio-kes.yaml:/root/.kes/config/config.yaml
+    environment:
+      - KES_SERVER=https://0.0.0.0:7373
+    ports:
+      - "7373:7373"
+    cap_add:
+      - IPC_LOCK
+    command:
+      - "server"
+      - "--config=/root/.kes/config/config.yaml"
+      - "--auth=off"
+    networks:
+      - ocr
+
+
+
+networks:
+  ocr:
+    external: true
+
+
